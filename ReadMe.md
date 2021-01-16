@@ -25,7 +25,7 @@ You can <b><u>manipulate</u></b> the cell values with varius commands which are 
 ><li>RR*</li>
 ><li>SU*</li>
 ><li>MV*</li>
-</ul>
+></ul>
 [more details here](#all-available-commands)
 
 ## <h3>Input / Output</h3>
