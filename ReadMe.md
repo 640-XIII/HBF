@@ -106,6 +106,7 @@ There are two types of conditional statements and are the following:
 <li>Function already exists</li>
 <li>Function does not exist</li>
 <li>Large command</li>
+<li>Error closing input file</li>
 </ol>
 </h6>
 
