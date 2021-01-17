@@ -2,7 +2,9 @@
 <h1><i>HBF - High BrainFuck</i></h1>
 <hr>
 
-## How memory works in High BrainFuck
+## Short Summary
+
+<h4> How memory works in High BrainFuck </h4>
 
 Memory in <b>HBF</b> works in cells, you have 256 cells of memory ( bytes ) which you can change in the #definein the <b><u>start</u></b> of the HBF.c file.
 
@@ -33,7 +35,7 @@ You can <b><u>manipulate</u></b> the cell values with varius commands which are 
 To get <b><u>input</u></b> from the user the use of the <b>GET</b> command is needed, it will get a <b>single</b> character and saves the value in <b><u>integer</u></b> form ( 0 - 255 ) in the <b>current</b> memory cell.
 
 To <b><u>display</u></b> anything on the screen the <b>DIS</b> is used, it will display the ASCII character <b>depending</b> on the value the memory cell <b>currently</b> holds.
-
+<hr>
 ## <h3>HBF Functions</h3>
 <b>HBF</b> also support a form of <b><u>functions</u></b>, rules to declare and call using the a function succesfuly:
 
