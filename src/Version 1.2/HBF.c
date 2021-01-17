@@ -28,8 +28,8 @@ enum ERROR_CODES {
 #define LARGE_COMMAND "Error during runtime, command larger than expected"
 #define ERROR_CLOSING_FILE "Error closing input file"
 
-#define ERROR(message, line, exitCode) printf("%s\nLine -> %i\n", message, line); exit(exitCode);
-#define RUN_ERR(line) ERROR(RUNTIME_ERROR, ((line + 4) / 4), 4)
+#define ERROR(message, line, exitCode) printf("%s\nLine -> %i\n", message, line); return exitCode;
+#define RUN_ERR(line) ERROR(RUNTIME_ERROR, ((line + 4) / 4), 3)
 #define IS_INT(x) (*x - 48) < 10 && (*x - 48) >= 0
 #define FALSE 'f'
 #define TRUE 't'
@@ -62,18 +62,15 @@ int main(int argc, char** argv) {
         loadProgramInMemory(fp, programData, fileLength);
         
         if (fclose(fp) == 0) {
-            interpeter(programData, fileLength);
+            return interpeter(programData, fileLength);
         } else {
             printf("%s\n", ERROR_CLOSING_FILE);
-            exit(ERROR_CLOSING_FILE_CODE);
+            return ERROR_CLOSING_FILE_CODE;
         }
     } else {
         printf("%s\n",ERROR_OPENING_FILE);
-        exit(ERROR_OPENING_FILE_CODE);
+        return ERROR_OPENING_FILE_CODE;
     }
-    
-    
-    return 0;
 }
 
 
@@ -390,7 +387,7 @@ short interpeter(char *PD, int fileLength) {
                         // if the label was not found then terminate the program
                         if (found == FALSE) {
                             printf("%s\n", UKNOWN_LABEL_RUNTIME);
-                            exit(UKNOWN_LABEL_RUNTIME_CODE);
+                            return UKNOWN_LABEL_RUNTIME_CODE;
                         }
 
                         break;
@@ -491,7 +488,7 @@ short interpeter(char *PD, int fileLength) {
                             }
                         } else {
                             printf("%s\n", FUNCTION_DOESNT_EXIST);
-                            exit(FUNCTION_DOESNT_EXIST_CODE);
+                            return FUNCTION_DOESNT_EXIST_CODE;
                         }
 
                         PD++;
@@ -547,7 +544,7 @@ short interpeter(char *PD, int fileLength) {
                             PD++;
                         } else {
                             printf("%s\n", LABEL_ALREADY_EXISTS);
-                            exit(LABEL_ALREADY_EXISTS_CODE);
+                            return LABEL_ALREADY_EXISTS_CODE;
                         }
 
                         break;
@@ -739,7 +736,7 @@ short interpeter(char *PD, int fileLength) {
                                         toIncrease = INSTRUCTION_LENGTH - 1;
                                     }
                                 } else if (*PD == 'E') {
-                                    exit(0);
+                                    return 0;
                                 } else {
                                     toIncrease = INSTRUCTION_LENGTH;
                                 }
@@ -749,7 +746,7 @@ short interpeter(char *PD, int fileLength) {
                             }
                         } else {
                             printf("%s\n", FUNCTION_ALREADY_EXISTS);
-                            exit(FUNCTION_ALREADY_EXISTS_CODE);
+                            return FUNCTION_ALREADY_EXISTS_CODE;
                         }
 
                         break;
@@ -765,7 +762,8 @@ short interpeter(char *PD, int fileLength) {
         if (*PD != 10) {
             printf("PD -> |%c|\n", *PD);
             printf("%s\nLine: %i\n", LARGE_COMMAND, (line + 4) / 4);
-            exit(LARGE_COMMAND_CODE);
+            
+            return LARGE_COMMAND_CODE;
         }
 
         // update the line variable by the instruction length and increase PD ( Program Data )
@@ -773,6 +771,8 @@ short interpeter(char *PD, int fileLength) {
         line += INSTRUCTION_LENGTH;
         PD++;
     }
+
+    return 0;
 }
 
 
