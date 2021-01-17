@@ -98,6 +98,16 @@ There are two types of conditional statements and are the following:
 <b>END</b> - It indicates the end of the program, it is <b>always</b> needed<br>
 
 <hr>
+
+<h4>How to compile and run HBF</h4>
+<smaller>> linux</smaller>
+
+><p>$ gcc HBF.c -o out</p>
+><p>$ ./out input</p>
+
+- [HBF scripts](https://github.com/640-XIII/HBF/scripts/)
+
+<hr>
 <h2>Error Codes</h2>
 <h6>
 <ol>
@@ -125,7 +135,7 @@ There are two types of conditional statements and are the following:
 <li>No unicode characters</li>
 </ul>
 </h6>
-<small>You can modify these values from the HBF.c file</small>
+<small><i>*You can modify these values from the HBF.c file</i></small>
 
 <br><br>
 **<u>WARNINGS</u>**
