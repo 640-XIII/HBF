@@ -72,6 +72,7 @@ There are two types of conditional statements and are the following:
 <b>ADP</b> - Adds the previous cell's value to the current cell's value ( value = value + previous_value)<br>
 <b>ADN</b> - Adds the next cell's value to the current cell's value ( value = value + next_value)<br>
 <b>DIS</b> - Display the value of the current memory cell to ASCII ( 65 value = A )<br>
+<b>SS*</b> - Display * amount of characters in memory from the current cell to cell + * value without changing the pointer position<br>
 <b>NWL</b> - Outputs a '\n' character<br>
 <b>GET</b> - Get user input and save it to the current memory cell as an integer from 0 to 255 ( A = 65 value )<br>
 <b>INC</b> - Increases the current cell's value by one ( value = value + 1 )<br>
@@ -109,6 +110,20 @@ There are two types of conditional statements and are the following:
 <li>Error closing input file</li>
 </ol>
 </h6>
+<hr>
+
+## Limitations
+
+<h6>
+<ul>
+<li>Every command needs to be 3 characters long</li>
+<li>Maximum labels possible are 64</li>
+<li>Maximum functions possible are 64</li>
+<li>Total memory available is 256 bytes</li>
+<li>No unicode characters</li>
+</ul>
+</h6>
+<small>You can modify these values from the HBF.c file</small>
 
 <br><br>
 **<u>WARNINGS</u>**
