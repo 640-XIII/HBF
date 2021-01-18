@@ -109,7 +109,7 @@ short interpeter(char *PD, int fileLength) {
 
 
     // all the data related variables and help variables
-    unsigned char *memory = (char *) malloc(MEMORY);
+    unsigned char *memory = (char *) calloc(0, MEMORY);
     unsigned int tempVar = 0;
     unsigned int line = 0;
     unsigned int j = 0;
