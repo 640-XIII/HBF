@@ -105,7 +105,7 @@ There are two types of conditional statements and are the following:
 ><p>$ gcc HBF.c -o out</p>
 ><p>$ ./out input</p>
 
-- [HBF scripts](https://github.com/640-XIII/HBF/scripts/)
+- [HBF scripts](https://github.com/640-XIII/HBF/tree/main/scripts)
 
 <hr>
 <h2>Error Codes</h2>
