@@ -135,13 +135,20 @@ There are two types of conditional statements and are the following:
 <li>No unicode characters</li>
 </ul>
 </h6>
-<small><i>*You can modify these values from the HBF.c file</i></small>
-<br><br>
+<small><i>*You can modify these values from the HBF.c and from headers.h file from version 1.3</i></small>
+<br>
+
+<hr>
+
+<h5>Important Notes</h5>
+
 <b><u><i>You can see the TODO list on <a href = "https://trello.com/b/85og5tLC/hbf-programming-language" target = "_blank">Trello</a></i></u></b>
 
-<br><br>
-**<u>WARNINGS</u>**
 <hr>
+
+
+**<u>WARNINGS</u>**
+<br>
 
 <i>*Calling a function or label and **not** having a exit condition will make a never ending while loop</i>
 
