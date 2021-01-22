@@ -9,7 +9,15 @@
 Memory in <b>HBF</b> works in cells, you have 256 cells of memory ( bytes ) which you can change in the #definein the <b><u>start</u></b> of the HBF.c file.
 
 <h4>Change memory cells with the following commands</h4>
-<h6><ul><li>NEX</li><li>PRE</li></ul></h6>
+
+><h6>
+><ul>
+><li>NEX</li>
+><li>PRE</li>
+><li>PF*</li>
+><li>PB*</li>
+></ul>
+></h6>
 
 You can <b><u>manipulate</u></b> the cell values with varius commands which are the following:
 
@@ -84,6 +92,8 @@ There are two types of conditional statements and are the following:
 <b>PW*</b> - Increases the value of the current cell value by * ( value = value ^ * )<br>
 <b>NEX</b> - Goes to the next memory cell<br>
 <b>PRE</b> - Goes to the previous memory cell<br>
+<b>PF*</b> - Goes to current memory cell location + * memory cell location<br>
+<b>PB*</b> - Goes to current memory cell location - * memory cell location<br>
 <b>LB*</b> - Create a label with the name *<br>
 <b>GO*</b> - Go to the label with the name *<br>
 <b>CMT</b> - If the value of the cell is 1 or more it will not skip the next line, if the value is 0 it will skip the next line<br>
