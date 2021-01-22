@@ -36,7 +36,7 @@ To get <b><u>input</u></b> from the user the use of the <b>GET</b> command is ne
 
 To <b><u>display</u></b> anything on the screen the <b>DIS</b> is used, it will display the ASCII character <b>depending</b> on the value the memory cell <b>currently</b> holds.
 <hr>
-## <h3>HBF Functions</h3>
+##<h3>HBF Functions</h3>
 <b>HBF</b> also support a form of <b><u>functions</u></b>, rules to declare and call using the a function succesfuly:
 
 ><ol>
@@ -136,6 +136,8 @@ There are two types of conditional statements and are the following:
 </ul>
 </h6>
 <small><i>*You can modify these values from the HBF.c file</i></small>
+<br><br>
+<b><u><i>You can see the TODO list on <a href = "https://trello.com/b/85og5tLC/hbf-programming-language" target = "_blank">Trello</a></i></u></b>
 
 <br><br>
 **<u>WARNINGS</u>**
