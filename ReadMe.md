@@ -1,4 +1,4 @@
-![HBF](/misc/Icon.png)
+<img src = "/misc/Icon.png" alt = "HBF">
 <h1><i>HBF - High BrainFuck</i></h1>
 <hr>
 
@@ -150,13 +150,6 @@ There are two types of conditional statements and are the following:
 <br>
 
 <hr>
-
-<h5>Important Notes</h5>
-
-<b><u><i>You can see the TODO list on <a href = "https://trello.com/b/85og5tLC/hbf-programming-language" target = "_blank">Trello</a></i></u></b>
-
-<hr>
-
 
 **<u>WARNINGS</u>**
 <br>
