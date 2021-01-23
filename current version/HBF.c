@@ -3,7 +3,6 @@
 
 #include "headers.h"
 
-// VERSION 1.4
 
 #pragma region declareFuncs
 
