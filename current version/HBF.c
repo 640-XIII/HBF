@@ -9,6 +9,7 @@
 void loadProgramInMemory(FILE *fp, char *PD, int fileLength);
 short interpeter(char *PD, int fileLength);
 LONG power(LONG arg1, LONG arg2);
+char isFileHBF(char *filename);
 int getFileLength(FILE *fp);
 
 #pragma endregion declareFuncs
@@ -17,10 +18,17 @@ int getFileLength(FILE *fp);
 int main(int argc, char** argv) {
     if (argc == 1) {
         printf("%s\n", NO_INPUT_FILE); 
-        exit(NO_INPUT_FILE_CODE);
+        return NO_INPUT_FILE_CODE;
     }
     
+    // check if the file has the required extension
+    if (isFileHBF(argv[1]) == FALSE) {
+        printf("%s%s\n", FILE_EXTENSION_WRONG, EXTENSION);
+        return FILE_EXTENSION_WRONG_CODE;
+    }
 
+
+    // open the file, get the length of the file to allocate the correct amount of memory for the program data
     FILE *fp = fopen(argv[1], "r");
     int fileLength = getFileLength(fp);
     char *programData = (char *) malloc(fileLength);
@@ -740,6 +748,25 @@ LONG power(LONG arg1, LONG arg2) {
     return toReturn;
 }
 
+
+char isFileHBF(char *filename) {
+    // get the filenameLength and the last characters of the filename which indicates the extension of the file
+    int filenameLength = sizeof(filename);
+    char extension[5] = { *(filename + filenameLength - 4),  
+                          *(filename + filenameLength - 3), 
+                          *(filename + filenameLength - 2), 
+                          *(filename + filenameLength - 1), '\0'};
+
+    // check if all the characters are the ones needed for the extension, if not then the file does not have the
+    // required extension
+    for (int i = 0; i != (filenameLength - 3); i++) {
+        if (extension[i] != EXTENSION[i]) {
+            return FALSE;
+        }
+    }
+
+    return TRUE;
+}
 
 int getFileLength(FILE *fp) {
     int toReturn;
