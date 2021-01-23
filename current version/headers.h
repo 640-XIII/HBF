@@ -22,7 +22,6 @@
 #define RUN_ERR(line) ERROR(RUNTIME_ERROR, ((line + INSTRUCTION_LENGTH) / INSTRUCTION_LENGTH), 3)
 #define IS_INT(x) (*x - 48) < 10 && (*x - 48) >= 0
 
-#define EXTENSION ".hbf"
 #define FALSE 'f'
 #define TRUE 't'
 
@@ -35,8 +34,7 @@ enum ERROR_CODES {
     FUNCTION_ALREADY_EXISTS_CODE = 6,
     FUNCTION_DOESNT_EXIST_CODE = 7,
     LARGE_COMMAND_CODE = 8,
-    ERROR_CLOSING_FILE_CODE = 9,
-    FILE_EXTENSION_WRONG_CODE = 10
+    ERROR_CLOSING_FILE_CODE = 9
 };
 
 typedef long int LONG;
