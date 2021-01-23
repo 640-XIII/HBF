@@ -118,6 +118,8 @@ There are two types of conditional statements and are the following:
 
 - [HBF scripts](https://github.com/640-XIII/HBF/tree/main/scripts)
 
+<small>*Note: all files need the extension.hbf, you can change the extension in the headers.h or remove the check entirely in the HBF.c file</small>
+
 <hr>
 <h2>Error Codes</h2>
 <h6>
