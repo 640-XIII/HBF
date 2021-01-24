@@ -113,9 +113,10 @@ There are two types of conditional statements and are the following:
 <h4>How to compile and run HBF scripts from console</h4>
 <smaller>> linux</smaller>
 
-><p>$ gcc HBF.c -o out</p>
-><p>$ ./out input.hbf</p>
-
+```
+$ gcc HBF.c -o out
+$ ./out input.hbf
+```
 - [HBF scripts](https://github.com/640-XIII/HBF/tree/main/scripts)
 
 <small>*Note: You can input all file types</small>
