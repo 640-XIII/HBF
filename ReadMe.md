@@ -94,15 +94,15 @@ There are two types of conditional statements and are the following:
 <b>PRE</b> - Goes to the previous memory cell<br>
 <b>PF*</b> - Goes to current memory cell location + * memory cell location<br>
 <b>PB*</b> - Goes to current memory cell location - * memory cell location<br>
-<b>LB*</b> - Create a label with the name *<br>
-<b>GO*</b> - Go to the label with the name *<br>
+<b>LB*</b> - Create a label with the name \*<br>
+<b>GO\*</b> - Go to the label with the name \*<br>
 <b>CMT</b> - If the value of the cell is 1 or more it will not skip the next line, if the value is 0 it will skip the next line<br>
 <b>CMF</b> - If the value of the cell is 0 it will not skip the next line, if the value is 1 or more it will skip the next line<br>
 <b>CPP</b> - Copy the value of the previous cell to the current cell ( value = previous_value )<br>
 <b>CPN</b> - Copy the value of the next cell to the current cell ( value = next_value )<br>
-<b>FN*</b> - Create a function with the name *<br>
+<b>FN*</b> - Create a function with the name \*<br>
 <b>RET</b> - Indicated the end of a function<br>
-<b>CL*</b> - Call a function with the name *<br>
+<b>CL*</b> - Call a function with the name \*<br>
 <b>MV*</b> - Move the * ASCII value to the current memory cell ( value = (int)A ) <br>
 <b>SU*</b> - Subtracts * from the current value ( value = value - * )<br>
 <b>RR*</b> - Saves the current value to the remainder of the division with * ( value = value % *)<br>
