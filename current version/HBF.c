@@ -125,6 +125,8 @@ short interpeter(char *PD, int fileLength) {
                         case ('P'):
                             PD++;
 
+                            // adds the value of *memory - *value to the current memory cell
+
                             if (IS_INT(PD)) {
                                 *(memory + memoryOffset) += *(memory + memoryOffset - (*PD - 48));
                             } else {
@@ -135,6 +137,8 @@ short interpeter(char *PD, int fileLength) {
 
                         case ('N'):
                             PD++;
+
+                            // adds the value of *memory + *value to the current memory cell
 
                             if (IS_INT(PD)) {
                                 *(memory + memoryOffset) += *(memory + memoryOffset + (*PD - 48));
