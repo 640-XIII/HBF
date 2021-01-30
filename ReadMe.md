@@ -36,6 +36,8 @@ You can <b><u>manipulate</u></b> the cell values with varius commands which are 
 ><li>AD*</li>
 ><li>ADP</li>
 ><li>ADN</li>
+><li>AP*</li>
+><li>AN*</li>
 ><li>DEC</li>
 ><li>INC</li>
 ><li>DV*</li>
@@ -94,6 +96,8 @@ There are two types of conditional statements and are the following:
 ## All available commands
 
 ><b>AD*</b> - Adds the * to the value of the current memory cell ( value = value + * )<br>
+<b>AP*</b> - Adds the memory cell value of current_memory_cell_position - \*<br>
+<b>AN*</b> - Adds the memory cell value of current_memory_cell_position + \*<br>
 <b>ADP</b> - Adds the previous cell's value to the current cell's value ( value = value + previous_value)<br>
 <b>ADN</b> - Adds the next cell's value to the current cell's value ( value = value + next_value)<br>
 <b>DIS</b> - Display the value of the current memory cell to ASCII ( 65 value = A )<br>
