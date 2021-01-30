@@ -73,13 +73,17 @@ short interpeter(char *PD, int fileLength) {
 
 
     // all the data related variables and help variables
-    unsigned char *memory = (char *) calloc(0, MEMORY);
+    unsigned char *memory = (char *) malloc(MEMORY);
+    unsigned int memoryOffset = 0;
     unsigned int tempVar = 0;
     unsigned int line = 0;
     unsigned int j = 0;
     unsigned int k = 0;
     unsigned char found = FALSE;
 
+    for (int i = 0; i < MEMORY; i++) {
+        *(memory + i) = 0;
+    }
 
     // the following loop while end once it sees the E character at PD[0]
     while (*PD != 'E') {
@@ -98,21 +102,48 @@ short interpeter(char *PD, int fileLength) {
                     case ('D'):
                         PD++;
 
-                        // seeing if the character we got is an integer by the #define we created
-                        // in the start of the file else inform the user a error is present at i line
+                        /* 
+                        seeing if the character we got is an integer by the #define we created
+                        in the start of the file else inform the user a error is present at i line,
+                        if it isn't a number but it is the character P then it adds the previous value
+                        to the current memory cell, if it is N the it adds the next value to the
+                        current memory cell
+                        */
 
                         if (IS_INT(PD)) {
-                            *memory += *PD - 48;
+                            *(memory + memoryOffset) += *PD - 48;
                         } else if (*PD == 'P') {
-                            *memory += *(memory - 1);
+                            *(memory + memoryOffset) += *(memory + memoryOffset - 1);
                         } else if (*PD == 'N') {
-                            *memory += *(memory + 1);
+                            *(memory + memoryOffset) += *(memory + memoryOffset + 1);
                         } else {
                             RUN_ERR(line)
                         }
 
                         break;
                     
+                        case ('P'):
+                            PD++;
+
+                            if (IS_INT(PD)) {
+                                *(memory + memoryOffset) += *(memory + memoryOffset - (*PD - 48));
+                            } else {
+                                RUN_ERR(line);
+                            }
+
+                            break;
+
+                        case ('N'):
+                            PD++;
+
+                            if (IS_INT(PD)) {
+                                *(memory + memoryOffset) += *(memory + memoryOffset + (*PD - 48));
+                            } else {
+                                RUN_ERR(line);
+                            }
+
+                            break;
+
                     default: RUN_ERR(line)
                 }
 
@@ -128,7 +159,7 @@ short interpeter(char *PD, int fileLength) {
 
                         // display the character in the selected memory cell
                         if (*PD == 'S') {
-                            printf("%c", *memory);
+                            printf("%c", *(memory + memoryOffset));
                         } else { 
                             RUN_ERR(line)
                         }
@@ -145,7 +176,7 @@ short interpeter(char *PD, int fileLength) {
                         */
 
                         if (*PD == 'C') { 
-                            *memory -= 1;
+                            *(memory + memoryOffset) -= 1;
                         } else { 
                             RUN_ERR(line) 
                         }
@@ -158,7 +189,7 @@ short interpeter(char *PD, int fileLength) {
                         // divide the number ( values range from 0 to 255 ) by the number in
                         // PD[2] if it is a number
                         if (IS_INT(PD)) {
-                            *memory = *memory / (*PD - 48);
+                            *(memory + memoryOffset) = *(memory + memoryOffset) / (*PD - 48);
                         } else { 
                             RUN_ERR(line) 
                         }
@@ -184,7 +215,7 @@ short interpeter(char *PD, int fileLength) {
                         */
 
                         if (*PD == 'C') {
-                            *memory += 1;
+                            *(memory + memoryOffset) += 1;
                         } else {
                             RUN_ERR(line)
                         }
@@ -207,7 +238,9 @@ short interpeter(char *PD, int fileLength) {
                         // change the memory cell by the selected memory cell - 1 aka the 
                         // previous cell 
                         if (*PD == 'E') {
-                            memory--;
+                            if (memoryOffset > 0) {
+                                memoryOffset--;
+                            }
                         } else { 
                             RUN_ERR(line) 
                         }
@@ -224,7 +257,7 @@ short interpeter(char *PD, int fileLength) {
                         */
 
                         if (IS_INT(PD)) {
-                            *memory = power(*memory, (*PD - 48));
+                            *(memory + memoryOffset) = power(*(memory + memoryOffset), (*PD - 48));
                         } else { 
                             RUN_ERR(line) 
                         }
@@ -235,7 +268,7 @@ short interpeter(char *PD, int fileLength) {
                         PD++;
 
                         if (IS_INT(PD)) {
-                            memory += (*PD - 48);
+                            memoryOffset += (*PD - 48);
                         } else {
                             RUN_ERR(line);
                         }
@@ -246,7 +279,7 @@ short interpeter(char *PD, int fileLength) {
                         PD++;
 
                         if (IS_INT(PD)) {
-                            memory -= (*PD - 48);
+                            memoryOffset -= (*PD - 48);
                         } else {
                             RUN_ERR(line);
                         }
@@ -267,7 +300,9 @@ short interpeter(char *PD, int fileLength) {
 
                         // go to the next cell of the memory ( current cell + 1 )
                         if (*PD == 'X') {
-                            memory++;
+                            if (memoryOffset < MEMORY) {
+                                memoryOffset++;
+                            }
                         } else { 
                             RUN_ERR(line)
                         }
@@ -302,7 +337,7 @@ short interpeter(char *PD, int fileLength) {
                         // gets the character the user gives and stores it into the selected
                         // memory cell ( current memory cell )
                         if (*PD == 'T') {
-                            *memory = getchar();
+                            *(memory + memoryOffset) = getchar();
                             getchar();
                         } else { 
                             RUN_ERR(line) 
@@ -375,14 +410,14 @@ short interpeter(char *PD, int fileLength) {
                         | line of code else ignore it, CMF works the same way but ignores the
                         | following line of code the the value of the cell is not 0
                         */
-
+                        
                         if (*PD == 'T') {
-                            if (*memory == 0) {
+                            if (*(memory + memoryOffset) == 0) {
                                 PD += INSTRUCTION_LENGTH;
                                 line += INSTRUCTION_LENGTH;
                             } 
                         } else if (*PD == 'F') {
-                            if (*memory != 0) {
+                            if (*(memory + memoryOffset) != 0) {
                                 PD += INSTRUCTION_LENGTH;
                                 line += INSTRUCTION_LENGTH;
                             }
@@ -398,9 +433,9 @@ short interpeter(char *PD, int fileLength) {
                         // copies the value of the current memory cell to the next ( CPN )
                         // or previous ( CPP )
                         if (*PD == 'N') {
-                            *(memory + 1) = *memory;
+                            *(memory + memoryOffset + 1) = *(memory + memoryOffset);
                         } else if (*PD == 'P') {
-                            *(memory - 1) = *memory;
+                            *(memory + memoryOffset - 1) = *(memory + memoryOffset);
                         } else {
                             RUN_ERR(line)
                         }
@@ -522,7 +557,7 @@ short interpeter(char *PD, int fileLength) {
                         // if the character is a number ( ASCII 48 - 57 ) then store to the current
                         // memory cell the remainder of *value % *PD
                         if (IS_INT(PD)) {
-                            *memory = *memory % (*PD - 48);
+                            *(memory + memoryOffset) = *(memory + memoryOffset) % (*PD - 48);
                         } else {
                             RUN_ERR(line)
                         }
@@ -540,6 +575,21 @@ short interpeter(char *PD, int fileLength) {
                             for (j = 0; j < (whereToReturn - tempVar) / INSTRUCTION_LENGTH; j++) {
                                 PD += INSTRUCTION_LENGTH;
                                 line += INSTRUCTION_LENGTH;
+                            }
+                        } else {
+                            RUN_ERR(line)
+                        }
+
+                        break;
+
+                    case ('F'):
+                        PD++;
+
+                        // it restores memory to it's original state, all zeroes
+
+                        if (*PD == 'M') {
+                            for (int i = 0; i < MEMORY; i++) {
+                                *(memory + i) = 0;
                             }
                         } else {
                             RUN_ERR(line)
@@ -566,7 +616,7 @@ short interpeter(char *PD, int fileLength) {
                         */
 
                         if (IS_INT(PD)) {
-                            *memory = *memory - (*PD - 48);
+                            *(memory + memoryOffset) = *(memory + memoryOffset) - (*PD - 48);
                         } else {
                             RUN_ERR(line)
                         }
@@ -578,7 +628,7 @@ short interpeter(char *PD, int fileLength) {
 
                         if (IS_INT(PD)) {
                             for (j = 0; j < *(PD) - 48; j++) {
-                                printf("%c", *(memory + j));
+                                printf("%c", *(memory + memoryOffset + j));
                             }
                         } else {
                             RUN_ERR(line);
@@ -600,7 +650,25 @@ short interpeter(char *PD, int fileLength) {
                         PD++;
 
                         // store the PD[2] value to the current memory cell
-                        *memory = *PD;
+                        *(memory + memoryOffset) = *PD;
+
+                        break;
+                    
+                    case ('L'):
+                        PD++;
+
+                        // multiplies the current memory value by the value given in the script
+                        *(memory + memoryOffset) = *(memory + memoryOffset) * (*PD - 48);
+
+                        break;
+                    
+                    case ('M'):
+                        PD++;
+
+                        // it modifies all memory cells to the value * given by the user in the file
+                        for (int i = 0; i < MEMORY; i++) {
+                            *(memory + i) = *PD;
+                        }
 
                         break;
 
