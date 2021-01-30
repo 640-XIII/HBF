@@ -1,4 +1,3 @@
-<img src = "/misc/Icon.png" alt = "HBF">
 <h1><i>HBF - High BrainFuck</i></h1>
 <hr>
 
