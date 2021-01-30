@@ -4,13 +4,13 @@
 
 <h2><b>Contents</b></h2>
 
-> [Short Summary](#short-summary)
-> [Input Output](#input-output)
-> [HBF Functions](#hbf-functions)
-> [HBF Labels](#hbf-labels)
-> [Conditional Statements](#conditional-statements)
-> [All Available Commands](#all-available-commands)
-> [Limitations and other info](#limitations)
+> [Short Summary](#short-summary)<br>
+> [Input Output](#input-output)<br>
+> [HBF Functions](#hbf-functions)<br>
+> [HBF Labels](#hbf-labels)<br>
+> [Conditional Statements](#conditional-statements)<br>
+> [All Available Commands](#all-available-commands)<br>
+> [Limitations and other info](#limitations)<br>
 <hr>
 
 ## Short Summary
