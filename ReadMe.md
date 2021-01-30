@@ -2,6 +2,17 @@
 <h1><i>HBF - High BrainFuck</i></h1>
 <hr>
 
+<h2><b>Contents</b></h2>
+
+> [Short Summary](#short-summary)
+> [Input Output](#input-output)
+> [HBF Functions](#hbf-functions)
+> [HBF Labels](#hbf-labels)
+> [Conditional Statements](#conditional-statements)
+> [All Available Commands](#all-available-commands)
+> [Limitations and other info](#limitations)
+<hr>
+
 ## Short Summary
 
 <h4> How memory works in High BrainFuck </h4>
@@ -35,17 +46,20 @@ You can <b><u>manipulate</u></b> the cell values with varius commands which are 
 ><li>RR*</li>
 ><li>SU*</li>
 ><li>MV*</li>
+><li>ML*</li>
+><li>RFM</li>
+><li>MM*</li>
 ></ul>
 [more details here](#all-available-commands)
 
-## <h3>Input / Output</h3>
+## Input Output
 
 To get <b><u>input</u></b> from the user the use of the <b>GET</b> command is needed, it will get a <b>single</b> character and saves the value in <b><u>integer</u></b> form ( 0 - 255 ) in the <b>current</b> memory cell.
 
 To <b><u>display</u></b> anything on the screen the <b>DIS</b> is used, it will display the ASCII character <b>depending</b> on the value the memory cell <b>currently</b> holds.
 <hr>
 
-## <h3>HBF Functions</h3>
+## HBF Functions
 <b>HBF</b> also support a form of <b><u>functions</u></b>, rules to declare and call using the a function succesfuly:
 
 ><ol>
@@ -55,7 +69,7 @@ To <b><u>display</u></b> anything on the screen the <b>DIS</b> is used, it will 
 ><li>Two or more functions cannot share the same name</li>
 </ol>
 
-## <h3>HBF Labels</h3>
+## HBF Labels
 <b>HBF</b> also supports <b>labels</b> and to use them the following rules must be applied:
 
 ><ol>
@@ -63,7 +77,7 @@ To <b><u>display</u></b> anything on the screen the <b>DIS</b> is used, it will 
 ><li>Two or more labels cannot share the same name</li>
 </ol>
 
-## <h3>Conditional statements</h3>
+## Conditional statements
 There are two types of conditional statements and are the following:
 
 ><ul>
@@ -104,6 +118,9 @@ There are two types of conditional statements and are the following:
 <b>RET</b> - Indicated the end of a function<br>
 <b>CL*</b> - Call a function with the name \*<br>
 <b>MV*</b> - Move the * ASCII value to the current memory cell ( value = (int)A ) <br>
+<b>ML*</b> - Multiplies the current value in memory by the number * given by the user<br>
+<b>MM*</b> - Changes all memory cell's values to the value of \*<br>
+<b>RFM</b> - Changed all memory cell's values to 0<br>
 <b>SU*</b> - Subtracts * from the current value ( value = value - * )<br>
 <b>RR*</b> - Saves the current value to the remainder of the division with * ( value = value % *)<br>
 <b>END</b> - It indicates the end of the program, it is <b>always</b> needed<br>
