@@ -11,6 +11,7 @@
 > [Conditional Statements](#conditional-statements)<br>
 > [All Available Commands](#all-available-commands)<br>
 > [Limitations and other info](#limitations)<br>
+> [Contribute](https://github.com/640-XIII/HBF___High_Brain_Fuck/blob/main/CONTRIBUTING.md)<br>
 <hr>
 
 ## Short Summary
@@ -143,6 +144,7 @@ $ ./out input.hbf
 <small>*Note: You can input all file types</small>
 
 <hr>
+
 <h2>Error Codes</h2>
 <h6>
 <ol>
