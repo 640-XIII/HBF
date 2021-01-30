@@ -1,5 +1,4 @@
 <h1><i>HBF - High BrainFuck</i></h1>
-<hr>
 
 <h2><b>Contents</b></h2>
 
@@ -11,7 +10,6 @@
 > [All Available Commands](#all-available-commands)<br>
 > [Limitations and other info](#limitations)<br>
 > [Contribute](https://github.com/640-XIII/HBF___High_Brain_Fuck/blob/main/CONTRIBUTING.md)<br>
-<hr>
 
 ## Short Summary
 
@@ -59,7 +57,6 @@ You can <b><u>manipulate</u></b> the cell values with varius commands which are 
 To get <b><u>input</u></b> from the user the use of the <b>GET</b> command is needed, it will get a <b>single</b> character and saves the value in <b><u>integer</u></b> form ( 0 - 255 ) in the <b>current</b> memory cell.
 
 To <b><u>display</u></b> anything on the screen the <b>DIS</b> is used, it will display the ASCII character <b>depending</b> on the value the memory cell <b>currently</b> holds.
-<hr>
 
 ## HBF Functions
 <b>HBF</b> also support a form of <b><u>functions</u></b>, rules to declare and call using the a function succesfuly:
@@ -90,8 +87,6 @@ There are two types of conditional statements and are the following:
 <b>CMT:</b> Compare True, if the <b><u>current</u></b> memory cell has a value of 1 or more it will <b>NOT</b> skip the next line.
 
 <b>CMF:</b> Compare False, if the <b><u>current</u></b> memory cell has a value of 0 it will <b>NOT</b> skip the next line.
-
-<hr>
 
 ## All available commands
 
@@ -129,7 +124,6 @@ There are two types of conditional statements and are the following:
 <b>RR*</b> - Saves the current value to the remainder of the division with * ( value = value % *)<br>
 <b>END</b> - It indicates the end of the program, it is <b>always</b> needed<br>
 
-<hr>
 
 <h4>How to compile and run HBF scripts from console</h4>
 <smaller>> linux</smaller>
@@ -141,8 +135,6 @@ $ ./out input.hbf
 - [HBF scripts](https://github.com/640-XIII/HBF/tree/main/scripts)
 
 <small>*Note: You can input all file types</small>
-
-<hr>
 
 <h2>Error Codes</h2>
 <h6>
@@ -158,7 +150,6 @@ $ ./out input.hbf
 <li>Error closing input file</li>
 </ol>
 </h6>
-<hr>
 
 ## Limitations
 
@@ -173,8 +164,6 @@ $ ./out input.hbf
 </h6>
 <small><i>*You can modify these values from the HBF.c and from headers.h file from version 1.3</i></small>
 <br>
-
-<hr>
 
 **<u>WARNINGS</u>**
 <br>
