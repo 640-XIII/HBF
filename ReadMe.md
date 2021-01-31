@@ -6,8 +6,6 @@ language i made and github repo and it is quite simple to learn.
 
 If you want to help in the development of the language you should see [Contribute.md](https://github.com/640-XIII/HBF___High_Brain_Fuck/blob/main/CONTRIBUTING.md) file !
 
-<hr>
-
 <!--
 <h2><b>Contents</b></h2>
 
