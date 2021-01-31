@@ -1,5 +1,7 @@
 <h1><i>HBF - High BrainFuck</i></h1>
 
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/640-XIII/High-Brain-Fuck?color=f&label=Version) ![GitHub repo size](https://img.shields.io/github/repo-size/640-XIII/High-Brain-Fuck?label=Repo%20size)
+
 HBF is a <a href = "https://en.wikipedia.org/wiki/Esoteric_programming_language" target = "_blank">esoteric programming language</a> i made during lockdown to challenge myself and to learn more about C for my education
 in university, i was inspired by brainfuck, assembly and a bit of python, this is the first proper programming
 language i made and github repo, it is also quite simple to learn.
