@@ -1,17 +1,26 @@
 <h1><i>HBF - High BrainFuck</i></h1>
 
+HBF is a <a href = "https://en.wikipedia.org/wiki/Esoteric_programming_language" target = "_blank">esoteric programming language</a> i made during lockdown to challenge myself and to learn more about C for my education
+in university, i was inspired by brainfuck - assembly and a bit of python, this is the first proper in my programming
+language i made and github repo and it is quite simple to learn.
+
+If you want to help in the development of the language you should see [Contribute.md](https://github.com/640-XIII/HBF___High_Brain_Fuck/blob/main/CONTRIBUTING.md) file !
+
+<hr>
+
+<!--
 <h2><b>Contents</b></h2>
 
-> [Short Summary](#short-summary)<br>
+> [Memory](#memory)<br>
 > [Input Output](#input-output)<br>
 > [HBF Functions](#hbf-functions)<br>
 > [HBF Labels](#hbf-labels)<br>
 > [Conditional Statements](#conditional-statements)<br>
 > [All Available Commands](#all-available-commands)<br>
 > [Limitations and other info](#limitations)<br>
-> [Contribute](https://github.com/640-XIII/HBF___High_Brain_Fuck/blob/main/CONTRIBUTING.md)<br>
+> [Contribute](https://github.com/640-XIII/HBF___High_Brain_Fuck/blob/main/CONTRIBUTING.md)<br>-->
 
-## Short Summary
+## Memory
 
 <h4> How memory works in High BrainFuck </h4>
 
