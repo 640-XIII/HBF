@@ -145,6 +145,13 @@ There are two types of conditional statements and are the following:
 $ gcc HBF.c -o out
 $ ./out input.hbf
 ```
+
+<h6>Debug mode</h6>
+
+```
+$ gcc HBF.c -o out
+$ ./out input.hbf -d
+```
 - [HBF scripts](https://github.com/640-XIII/HBF/tree/main/scripts)
 
 <small>*Note: You can input all file types</small>
@@ -161,6 +168,7 @@ $ ./out input.hbf
 <li>Function does not exist</li>
 <li>Large command</li>
 <li>Error closing input file</li>
+<li>Invalid argument</li>
 </ol>
 </h6>
 
