@@ -1,6 +1,6 @@
 <h1><i>HBF - High BrainFuck</i></h1>
 
-![GitHub release (latest by date)](https://img.shields.io/github/v/release/640-XIII/High-Brain-Fuck?color=f&label=Version) ![GitHub repo size](https://img.shields.io/github/repo-size/640-XIII/High-Brain-Fuck?label=Repo%20size)
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/640-XIII/High-Brain-Fuck?color=f&label=Version) ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/640-XIII/High-Brain-Fuck?label=Repo%20Size)
 
 HBF is a <a href = "https://en.wikipedia.org/wiki/Esoteric_programming_language" target = "_blank">esoteric programming language</a> i made during lockdown to challenge myself and to learn more about C for my education
 in university, i was inspired by brainfuck, assembly and a bit of python, this is the first proper programming
@@ -54,6 +54,8 @@ You can <b><u>manipulate</u></b> the cell values with varius commands which are 
 ><li>CPN</li>
 ><li>RR*</li>
 ><li>SU*</li>
+><li>SHR</li>
+><li>SHL</li>
 ><li>MV*</li>
 ><li>ML*</li>
 ><li>RFM</li>
@@ -130,6 +132,8 @@ There are two types of conditional statements and are the following:
 <b>MM*</b> - Changes all memory cell's values to the value of \*<br>
 <b>RFM</b> - Changed all memory cell's values to 0<br>
 <b>SU*</b> - Subtracts * from the current value ( value = value - * )<br>
+<b>SHR</b> - Shifts all the bits in the current memory cell by one to the right ( value = value >> 1 )<br>
+<b>SHL</b> - Shifts all the bits in the current memory cell by one to the left ( value = value << 1 )<br>
 <b>RR*</b> - Saves the current value to the remainder of the division with * ( value = value % *)<br>
 <b>END</b> - It indicates the end of the program, it is <b>always</b> needed<br>
 
