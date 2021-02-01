@@ -16,11 +16,14 @@
 #define FUNCTION_DOESNT_EXIST "Error during runtime, function doesn't exist"
 #define LARGE_COMMAND "Error during runtime, command larger than expected"
 #define ERROR_CLOSING_FILE "Error closing input file"
-#define FILE_EXTENSION_WRONG "File extension is not "
+#define WRONG_ARGUMENT "Invalid argument, please enter a valid argument"
 
 #define ERROR(message, line, exitCode) printf("%s\nLine -> %i\n", message, line); return exitCode;
 #define RUN_ERR(line) ERROR(RUNTIME_ERROR, ((line + INSTRUCTION_LENGTH) / INSTRUCTION_LENGTH), 3)
 #define IS_INT(x) (*x - 48) < 10 && (*x - 48) >= 0
+
+#define DEBUG_FILE_OUTPUT_NAME "debugOut.txt"
+#define DEBUG_MODE_CODE "-d"
 
 #define FALSE 'f'
 #define TRUE 't'
@@ -34,7 +37,8 @@ enum ERROR_CODES {
     FUNCTION_ALREADY_EXISTS_CODE = 6,
     FUNCTION_DOESNT_EXIST_CODE = 7,
     LARGE_COMMAND_CODE = 8,
-    ERROR_CLOSING_FILE_CODE = 9
+    ERROR_CLOSING_FILE_CODE = 9,
+    WRONG_ARGUMENT_CODE = 10
 };
 
 typedef long int LONG;
