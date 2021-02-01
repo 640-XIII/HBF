@@ -7,6 +7,7 @@
 #pragma region declareFuncs
 
 void loadProgramInMemory(FILE *fp, char *PD, int fileLength);
+char compareStrings(char *str1, char *str2);
 short interpeter(char *PD, int fileLength);
 LONG power(LONG arg1, LONG arg2);
 int getFileLength(FILE *fp);
@@ -51,6 +52,26 @@ void loadProgramInMemory(FILE *fp, char *PD, int fileLength) {
     for (int i = 0; i < fileLength; i++) {
         *(PD + i) = fgetc(fp);
     }
+}
+
+
+char compareStrings(char *str1, char *str2) {
+    /* 
+    while the str2 value is not \0 (end of string) then it will check character by character str1 and str 2 if
+    there is a difference in one character, if the is return FALSE, else if it completes the lopp then return TRUE
+    */
+
+    while (*str2 != '\0') {
+        if (*str1 != *str2) {
+            return FALSE;
+        }
+
+        // increase both pointers by one ( next character )
+        str1++;
+        str2++;
+    }
+
+    return TRUE;
 }
 
 
@@ -125,7 +146,7 @@ short interpeter(char *PD, int fileLength) {
                         case ('P'):
                             PD++;
 
-                            // adds the value of *memory - *value to the current memory cell
+                            // add the value of *memory - *value to the current memory cell
 
                             if (IS_INT(PD)) {
                                 *(memory + memoryOffset) += *(memory + memoryOffset - (*PD - 48));
@@ -138,7 +159,7 @@ short interpeter(char *PD, int fileLength) {
                         case ('N'):
                             PD++;
 
-                            // adds the value of *memory + *value to the current memory cell
+                            // add the value of *memory + *value to the current memory cell
 
                             if (IS_INT(PD)) {
                                 *(memory + memoryOffset) += *(memory + memoryOffset + (*PD - 48));
@@ -630,10 +651,32 @@ short interpeter(char *PD, int fileLength) {
                     case ('S'):
                         PD++;
 
+                        // if the * character is a number then it will display * amount of characters going from the
+                        // current byte to current_byte + *
+
                         if (IS_INT(PD)) {
                             for (j = 0; j < *(PD) - 48; j++) {
                                 printf("%c", *(memory + memoryOffset + j));
                             }
+                        } else {
+                            RUN_ERR(line);
+                        }
+
+                        break;
+
+                    case ('H'):
+                        PD++;
+
+                        /*
+                        shift the current memory value by one to the right if the PD
+                        is equal to R ( right ) and one to the left if the PD is equal
+                        to L ( left )
+                        */
+
+                        if (*PD == 'R') {
+                            *(memory + memoryOffset) = *(memory + memoryOffset) >> 1;
+                        } else if (*PD == 'L') {
+                            *(memory + memoryOffset) = *(memory + memoryOffset) << 1;
                         } else {
                             RUN_ERR(line);
                         }
