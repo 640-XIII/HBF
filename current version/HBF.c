@@ -6,9 +6,9 @@
 
 #pragma region declareFuncs
 
+short interpeter(char *PD, int fileLength, char debugModeEnabled);
 void loadProgramInMemory(FILE *fp, char *PD, int fileLength);
 char compareStrings(char *str1, char *str2);
-short interpeter(char *PD, int fileLength);
 LONG power(LONG arg1, LONG arg2);
 int getFileLength(FILE *fp);
 
@@ -22,6 +22,19 @@ int main(int argc, char** argv) {
     }
 
 
+    char debugState = FALSE;
+
+    // see if the user wants a debug mode and act accordingly
+    if (argc == 3) {
+        debugState = compareStrings(argv[2], DEBUG_MODE_CODE);
+
+        if (debugState == FALSE) {
+            printf("%s\n", WRONG_ARGUMENT);
+            return WRONG_ARGUMENT_CODE;
+        }
+    }
+
+
     // open the file, get the length of the file to allocate the correct amount of memory for the program data
     FILE *fp = fopen(argv[1], "r");
     int fileLength = getFileLength(fp);
@@ -31,7 +44,7 @@ int main(int argc, char** argv) {
         loadProgramInMemory(fp, programData, fileLength);
         
         if (fclose(fp) == 0) {
-            return interpeter(programData, fileLength);
+            return interpeter(programData, fileLength, debugState);
         } else {
             printf("%s\n", ERROR_CLOSING_FILE);
             return ERROR_CLOSING_FILE_CODE;
@@ -45,37 +58,7 @@ int main(int argc, char** argv) {
 
 #pragma region funcs
 
-void loadProgramInMemory(FILE *fp, char *PD, int fileLength) {
-    // loads all the data from the file to the PD ( Program Data ) and increases
-    // it's value ( address ) by one for the next character
-
-    for (int i = 0; i < fileLength; i++) {
-        *(PD + i) = fgetc(fp);
-    }
-}
-
-
-char compareStrings(char *str1, char *str2) {
-    /* 
-    while the str2 value is not \0 (end of string) then it will check character by character str1 and str 2 if
-    there is a difference in one character, if the is return FALSE, else if it completes the lopp then return TRUE
-    */
-
-    while (*str2 != '\0') {
-        if (*str1 != *str2) {
-            return FALSE;
-        }
-
-        // increase both pointers by one ( next character )
-        str1++;
-        str2++;
-    }
-
-    return TRUE;
-}
-
-
-short interpeter(char *PD, int fileLength) {
+short interpeter(char *PD, int fileLength, char debugModeEnabled) {
     // all the variables needed to make labels work ( name, label position , number of labels )
     unsigned int *labelsPositions = (int *) malloc(MAXIMUM_LABELS * sizeof(int));
     unsigned char *labelNames = (char *) malloc(MAXIMUM_LABELS);
@@ -95,6 +78,7 @@ short interpeter(char *PD, int fileLength) {
 
     // all the data related variables and help variables
     unsigned char *memory = (char *) malloc(MEMORY);
+    unsigned int maxMemoryLocation = 0;
     unsigned int memoryOffset = 0;
     unsigned int tempVar = 0;
     unsigned int line = 0;
@@ -102,6 +86,8 @@ short interpeter(char *PD, int fileLength) {
     unsigned int k = 0;
     unsigned char found = FALSE;
 
+
+    // fill the memory with all zeroes
     for (int i = 0; i < MEMORY; i++) {
         *(memory + i) = 0;
     }
@@ -812,6 +798,27 @@ short interpeter(char *PD, int fileLength) {
                 break;
         }
 
+        // if debug mode was enabled then save the maximum memory offset recorded for
+        // later use
+        
+        if (debugModeEnabled == TRUE) {
+            maxMemoryLocation = (maxMemoryLocation < memoryOffset) ? memoryOffset : maxMemoryLocation;
+
+            // print the total memory used, current command and memory contents
+            printf("\n----------------\nCurrent memory cell: %i\nCurrent Command: %c%c%c\n", memoryOffset, *(PD - 2), *(PD - 1), *PD);
+
+            for (int i = 0; i <= maxMemoryLocation; i++) {
+                printf("%i%-4c", *(memory + i), '|');
+            } 
+            
+            // ask the user to press enter to continue executing the program
+            printf("\nPRESS ENTER TO CONTINUE");
+            getchar();
+            printf("----------------\n");
+        }
+
+
+
         PD++;
 
         // if the PD[3] does not equal to 10 or the new line character then inform the
@@ -831,6 +838,36 @@ short interpeter(char *PD, int fileLength) {
 
 
     return 0;
+}
+
+
+void loadProgramInMemory(FILE *fp, char *PD, int fileLength) {
+    // loads all the data from the file to the PD ( Program Data ) and increases
+    // it's value ( address ) by one for the next character
+
+    for (int i = 0; i < fileLength; i++) {
+        *(PD + i) = fgetc(fp);
+    }
+}
+
+
+char compareStrings(char *str1, char *str2) {
+    /* 
+    while the str2 value is not \0 (end of string) then it will check character by character str1 and str 2 if
+    there is a difference in one character, if the is return FALSE, else if it completes the lopp then return TRUE
+    */
+
+    while (*str2 != '\0') {
+        if (*str1 != *str2) {
+            return FALSE;
+        }
+
+        // increase both pointers by one ( next character )
+        str1++;
+        str2++;
+    }
+
+    return TRUE;
 }
 
 
