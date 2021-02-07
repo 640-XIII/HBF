@@ -1,3 +1,4 @@
+#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -6,9 +7,9 @@
 
 #pragma region declareFuncs
 
-short interpeter(char *PD, int fileLength, char debugModeEnabled);
+short interpeter(char *PD, int fileLength, bool debugModeEnabled);
 void loadProgramInMemory(FILE *fp, char *PD, int fileLength);
-char compareStrings(char *str1, char *str2);
+bool compareStrings(char *str1, char *str2);
 long power(long base, long exponent);
 int getFileLength(FILE *fp);
 
@@ -22,13 +23,13 @@ int main(int argc, char** argv) {
     }
 
 
-    char debugState = FALSE;
+    bool debugState = false;
 
     // see if the user wants a debug mode and act accordingly
     if (argc == 3) {
         debugState = compareStrings(argv[2], DEBUG_MODE_CODE);
 
-        if (debugState == FALSE) {
+        if (debugState == false) {
             printf("%s\n", errorMessages[WRONG_ARGUMENT_CODE - 1]);
             return WRONG_ARGUMENT_CODE;
         }
@@ -59,7 +60,7 @@ int main(int argc, char** argv) {
 
 #pragma region funcs
 
-short interpeter(char *PD, int fileLength, char debugModeEnabled) {
+short interpeter(char *PD, int fileLength, bool debugModeEnabled) {
     // all the variables needed to make labels work ( name, label position , number of labels )
     unsigned int *labelsPositions = malloc(sizeof(*labelsPositions) * MAXIMUM_LABELS);
     unsigned char *labelNames = malloc(sizeof(*labelNames) * MAXIMUM_LABELS);
@@ -85,12 +86,12 @@ short interpeter(char *PD, int fileLength, char debugModeEnabled) {
     unsigned int line = 0;
     unsigned int j = 0;
     unsigned int k = 0;
-    unsigned char found = FALSE;
+    bool found = false;
 
 
     // check if debug mode is enabled and create a output file it this is the case
     /*
-    if (debugModeEnabled == TRUE) {
+    if (debugModeEnabled) {
         FILE *outputFile = fopen(DEBUG_FILE_OUTPUT_NAME, "w");
         fclose(outputFile);
     }*/
@@ -371,7 +372,7 @@ short interpeter(char *PD, int fileLength, char debugModeEnabled) {
 
                         // go to the start of list before searching for the labels
                         // and create a found variable for later use
-                        found = FALSE;
+                        found = false;
 
                         for (j = 0; j < numOfLabels; j++) {
                             labelsPositions--;
@@ -385,7 +386,7 @@ short interpeter(char *PD, int fileLength, char debugModeEnabled) {
                         | names pointer 
                         */
 
-                        for (j = 0; j < numOfLabels && found == FALSE; j++) {
+                        for (j = 0; j < numOfLabels && !found; j++) {
                             if (*PD == *labelNames) {
                                 for (k = 0; k < ((line - *labelsPositions) / INSTRUCTION_LENGTH); k++) {
                                     PD -= INSTRUCTION_LENGTH;
@@ -398,7 +399,7 @@ short interpeter(char *PD, int fileLength, char debugModeEnabled) {
                                     labelNames++;
                                 }
 
-                                found = TRUE;
+                                found = true;
                             } else {
                                 labelsPositions++;
                                 labelNames++;
@@ -406,7 +407,7 @@ short interpeter(char *PD, int fileLength, char debugModeEnabled) {
                         }
 
                         // if the label was not found then terminate the program
-                        if (found == FALSE) {
+                        if (!found) {
                             ERROR(line, UKNOWN_LABEL_RUNTIME_CODE);
                         }
 
@@ -470,14 +471,14 @@ short interpeter(char *PD, int fileLength, char debugModeEnabled) {
                         | then the found variable become true for later use
                         */
 
-                        found = FALSE;
+                        found = false;
 
-                        for (j = 0; j < numOfFunctions && found == FALSE; j++) {
+                        for (j = 0; j < numOfFunctions && !found; j++) {
                             functionNames--;
                             funcPointer--;
 
                             if (*PD == *functionNames) {
-                                found = TRUE;
+                                found = true;
                             }
                         }
 
@@ -489,7 +490,7 @@ short interpeter(char *PD, int fileLength, char debugModeEnabled) {
                         | program
                         */
 
-                        if (found == TRUE) {
+                        if (found) {
                             for (k = 0; k < ((line - *funcPointer) / INSTRUCTION_LENGTH); k++) {
                                 PD -= INSTRUCTION_LENGTH;
                             } 
@@ -526,11 +527,11 @@ short interpeter(char *PD, int fileLength, char debugModeEnabled) {
                         | ( 't' ) and terminate the for loop
                         */
 
-                        found = FALSE;
+                        found = false;
 
-                        for (j = 0; j < (numOfLabels + 1) && found == FALSE; j++) {
+                        for (j = 0; j < (numOfLabels + 1) && !found; j++) {
                             if (*labelNames == *PD) {
-                                found = TRUE;
+                                found = true;
                             } else {
                                 *labelNames--;
                             }
@@ -544,7 +545,7 @@ short interpeter(char *PD, int fileLength, char debugModeEnabled) {
                         | one, if it is found then terminate the program
                         */
 
-                        if (found == FALSE) {
+                        if (!found) {
                             for (k = 0; k < j; k++) { labelNames++; }
 
                             *labelsPositions = line;
@@ -727,13 +728,13 @@ short interpeter(char *PD, int fileLength, char debugModeEnabled) {
                         // searches if a function with the PD[2] name already exists,
                         // if it exists the changes the found value to TRUE
                         short toIncrease = 0;
-                        found = FALSE;
+                        found = false;
 
-                        for (j = 0; j < numOfFunctions && found == FALSE; j++) {
+                        for (j = 0; j < numOfFunctions && !found; j++) {
                             functionNames--;
 
                             if (*functionNames == *PD) {
-                                found = TRUE;
+                                found = true;
                             }
                         }
 
@@ -745,7 +746,7 @@ short interpeter(char *PD, int fileLength, char debugModeEnabled) {
                         | the addresses by one and PD ( Program Data ) by 2
                         */
 
-                        if (found == FALSE) {
+                        if (!found) {
                             for (k = 0; k < j; k++) { functionNames++; }
 
                             *functionNames = *PD;
@@ -766,7 +767,7 @@ short interpeter(char *PD, int fileLength, char debugModeEnabled) {
                             | warning to the user
                             */
 
-                            while (found == FALSE) {
+                            while (!found) {
                                 toIncrease = 0;
 
                                 if (*PD == 'R') {
@@ -776,7 +777,7 @@ short interpeter(char *PD, int fileLength, char debugModeEnabled) {
                                         PD++;
 
                                         if (*PD == 'T') {
-                                            found = TRUE;
+                                            found = true;
                                         } else {
                                             toIncrease = INSTRUCTION_LENGTH - 2;
                                         }
@@ -807,7 +808,7 @@ short interpeter(char *PD, int fileLength, char debugModeEnabled) {
         // if debug mode was enabled then save the maximum memory offset recorded for
         // later use
         
-        if (debugModeEnabled == TRUE) {
+        if (debugModeEnabled) {
             maxMemoryLocation = (maxMemoryLocation < memoryOffset) ? memoryOffset : maxMemoryLocation;
 
             // print the total memory used, current command and memory contents
@@ -855,7 +856,7 @@ void loadProgramInMemory(FILE *fp, char *PD, int fileLength) {
 }
 
 
-char compareStrings(char *str1, char *str2) {
+bool compareStrings(char *str1, char *str2) {
     /* 
     while the str2 value is not \0 (end of string) then it will check character by character str1 and str 2 if
     there is a difference in one character, if the is return FALSE, else if it completes the lopp then return TRUE
@@ -863,7 +864,7 @@ char compareStrings(char *str1, char *str2) {
 
     while (*str2 != '\0') {
         if (*str1 != *str2) {
-            return FALSE;
+            return false;
         }
 
         // increase both pointers by one ( next character )
@@ -871,7 +872,7 @@ char compareStrings(char *str1, char *str2) {
         str2++;
     }
 
-    return TRUE;
+    return true;
 }
 
 
