@@ -18,9 +18,6 @@
 #define DEBUG_FILE_OUTPUT_NAME "debugOut.txt"
 #define DEBUG_MODE_CODE "-d"
 
-#define FALSE 'f'
-#define TRUE 't'
-
 enum ERROR_CODES {
     NO_INPUT_FILE_CODE = 1,
     ERROR_OPENING_FILE_CODE = 2,
