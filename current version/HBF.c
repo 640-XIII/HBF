@@ -9,7 +9,7 @@
 short interpeter(char *PD, int fileLength, char debugModeEnabled);
 void loadProgramInMemory(FILE *fp, char *PD, int fileLength);
 char compareStrings(char *str1, char *str2);
-LONG power(LONG arg1, LONG arg2);
+long power(long base, long exponent);
 int getFileLength(FILE *fp);
 
 #pragma endregion declareFuncs
@@ -17,7 +17,7 @@ int getFileLength(FILE *fp);
 
 int main(int argc, char** argv) {
     if (argc == 1) {
-        printf("%s\n", NO_INPUT_FILE); 
+        printf("%s\n", errorMessages[0]); 
         return NO_INPUT_FILE_CODE;
     }
 
@@ -29,7 +29,7 @@ int main(int argc, char** argv) {
         debugState = compareStrings(argv[2], DEBUG_MODE_CODE);
 
         if (debugState == FALSE) {
-            printf("%s\n", WRONG_ARGUMENT);
+            printf("%s\n", errorMessages[WRONG_ARGUMENT_CODE - 1]);
             return WRONG_ARGUMENT_CODE;
         }
     }
@@ -38,7 +38,8 @@ int main(int argc, char** argv) {
     // open the file, get the length of the file to allocate the correct amount of memory for the program data
     FILE *fp = fopen(argv[1], "r");
     int fileLength = getFileLength(fp);
-    char *programData = (char *) malloc(fileLength);
+    char *programData = malloc(sizeof(*programData) * fileLength);
+    
 
     if (fp != NULL) {
         loadProgramInMemory(fp, programData, fileLength);
@@ -50,7 +51,7 @@ int main(int argc, char** argv) {
             return ERROR_CLOSING_FILE_CODE;
         }
     } else {
-        printf("%s\n",ERROR_OPENING_FILE);
+        printf("%s\n", errorMessages[1]);
         return ERROR_OPENING_FILE_CODE;
     }
 }
@@ -60,15 +61,15 @@ int main(int argc, char** argv) {
 
 short interpeter(char *PD, int fileLength, char debugModeEnabled) {
     // all the variables needed to make labels work ( name, label position , number of labels )
-    unsigned int *labelsPositions = (int *) malloc(MAXIMUM_LABELS * sizeof(int));
-    unsigned char *labelNames = (char *) malloc(MAXIMUM_LABELS);
+    unsigned int *labelsPositions = malloc(sizeof(*labelsPositions) * MAXIMUM_LABELS);
+    unsigned char *labelNames = malloc(sizeof(*labelNames) * MAXIMUM_LABELS);
 
     unsigned int numOfLabels = 0;
 
 
     // all the necessary information about function ( name, line, current function etc )
-    unsigned char *functionNames = (char *) malloc(MAXIMUM_FUNCS);
-    unsigned char *funcPointer = (char *) malloc(MAXIMUM_FUNCS);
+    unsigned char *functionNames = malloc(sizeof(*functionNames) * MAXIMUM_FUNCS);
+    unsigned char *funcPointer = malloc(sizeof(*funcPointer) * MAXIMUM_FUNCS);
 
     unsigned int currentFunction = 0;
     unsigned int numOfFunctions = 0;
@@ -77,7 +78,7 @@ short interpeter(char *PD, int fileLength, char debugModeEnabled) {
 
 
     // all the data related variables and help variables
-    unsigned char *memory = (char *) malloc(MEMORY);
+    unsigned char *memory = malloc(sizeof(*memory) * MEMORY);
     unsigned int maxMemoryLocation = 0;
     unsigned int memoryOffset = 0;
     unsigned int tempVar = 0;
@@ -87,10 +88,19 @@ short interpeter(char *PD, int fileLength, char debugModeEnabled) {
     unsigned char found = FALSE;
 
 
+    // check if debug mode is enabled and create a output file it this is the case
+    /*
+    if (debugModeEnabled == TRUE) {
+        FILE *outputFile = fopen(DEBUG_FILE_OUTPUT_NAME, "w");
+        fclose(outputFile);
+    }*/
+
+
     // fill the memory with all zeroes
     for (int i = 0; i < MEMORY; i++) {
         *(memory + i) = 0;
     }
+
 
     // the following loop while end once it sees the E character at PD[0]
     while (*PD != 'E') {
@@ -118,7 +128,7 @@ short interpeter(char *PD, int fileLength, char debugModeEnabled) {
                         */
 
                         if (IS_INT(PD)) {
-                            *(memory + memoryOffset) += *PD - 48;
+                            *(memory + memoryOffset) += *PD - '0';
                         } else if (*PD == 'P') {
                             *(memory + memoryOffset) += *(memory + memoryOffset - 1);
                         } else if (*PD == 'N') {
@@ -135,7 +145,7 @@ short interpeter(char *PD, int fileLength, char debugModeEnabled) {
                             // add the value of *memory - *value to the current memory cell
 
                             if (IS_INT(PD)) {
-                                *(memory + memoryOffset) += *(memory + memoryOffset - (*PD - 48));
+                                *(memory + memoryOffset) += *(memory + memoryOffset - (*PD - '0'));
                             } else {
                                 RUN_ERR(line);
                             }
@@ -148,7 +158,7 @@ short interpeter(char *PD, int fileLength, char debugModeEnabled) {
                             // add the value of *memory + *value to the current memory cell
 
                             if (IS_INT(PD)) {
-                                *(memory + memoryOffset) += *(memory + memoryOffset + (*PD - 48));
+                                *(memory + memoryOffset) += *(memory + memoryOffset + (*PD - '0'));
                             } else {
                                 RUN_ERR(line);
                             }
@@ -200,7 +210,7 @@ short interpeter(char *PD, int fileLength, char debugModeEnabled) {
                         // divide the number ( values range from 0 to 255 ) by the number in
                         // PD[2] if it is a number
                         if (IS_INT(PD)) {
-                            *(memory + memoryOffset) = *(memory + memoryOffset) / (*PD - 48);
+                            *(memory + memoryOffset) = *(memory + memoryOffset) / (*PD - '0');
                         } else { 
                             RUN_ERR(line) 
                         }
@@ -268,7 +278,7 @@ short interpeter(char *PD, int fileLength, char debugModeEnabled) {
                         */
 
                         if (IS_INT(PD)) {
-                            *(memory + memoryOffset) = power(*(memory + memoryOffset), (*PD - 48));
+                            *(memory + memoryOffset) = power(*(memory + memoryOffset), (*PD - '0'));
                         } else { 
                             RUN_ERR(line) 
                         }
@@ -279,7 +289,7 @@ short interpeter(char *PD, int fileLength, char debugModeEnabled) {
                         PD++;
 
                         if (IS_INT(PD)) {
-                            memoryOffset += (*PD - 48);
+                            memoryOffset += (*PD - '0');
                         } else {
                             RUN_ERR(line);
                         }
@@ -290,7 +300,7 @@ short interpeter(char *PD, int fileLength, char debugModeEnabled) {
                         PD++;
 
                         if (IS_INT(PD)) {
-                            memoryOffset -= (*PD - 48);
+                            memoryOffset -= (*PD - '0');
                         } else {
                             RUN_ERR(line);
                         }
@@ -397,8 +407,7 @@ short interpeter(char *PD, int fileLength, char debugModeEnabled) {
 
                         // if the label was not found then terminate the program
                         if (found == FALSE) {
-                            printf("%s\n", UKNOWN_LABEL_RUNTIME);
-                            return UKNOWN_LABEL_RUNTIME_CODE;
+                            ERROR(line, UKNOWN_LABEL_RUNTIME_CODE);
                         }
 
                         break;
@@ -494,8 +503,7 @@ short interpeter(char *PD, int fileLength, char debugModeEnabled) {
                                 funcPointer++;
                             }
                         } else {
-                            printf("%s\n", FUNCTION_DOESNT_EXIST);
-                            return FUNCTION_DOESNT_EXIST_CODE;
+                            ERROR(line, FUNCTION_DOESNT_EXIST_CODE);
                         }
 
                         break;
@@ -547,8 +555,7 @@ short interpeter(char *PD, int fileLength, char debugModeEnabled) {
 
                             numOfLabels++;
                         } else {
-                            printf("%s\n", LABEL_ALREADY_EXISTS);
-                            return LABEL_ALREADY_EXISTS_CODE;
+                            ERROR(line, LABEL_ALREADY_EXISTS_CODE);
                         }
 
                         break;
@@ -568,7 +575,7 @@ short interpeter(char *PD, int fileLength, char debugModeEnabled) {
                         // if the character is a number ( ASCII 48 - 57 ) then store to the current
                         // memory cell the remainder of *value % *PD
                         if (IS_INT(PD)) {
-                            *(memory + memoryOffset) = *(memory + memoryOffset) % (*PD - 48);
+                            *(memory + memoryOffset) = *(memory + memoryOffset) % (*PD - '0');
                         } else {
                             RUN_ERR(line)
                         }
@@ -622,12 +629,12 @@ short interpeter(char *PD, int fileLength, char debugModeEnabled) {
 
                         /* 
                         | if the PD[2] is a number ( ASCII values 48 - 57 ) then substract
-                        | the current memory cell value with the PD[2] character value - 48
+                        | the current memory cell value with the PD[2] character value - '0'
                         | this does not protect against overflow - underflow 
                         */
 
                         if (IS_INT(PD)) {
-                            *(memory + memoryOffset) = *(memory + memoryOffset) - (*PD - 48);
+                            *(memory + memoryOffset) = *(memory + memoryOffset) - (*PD - '0');
                         } else {
                             RUN_ERR(line)
                         }
@@ -641,7 +648,7 @@ short interpeter(char *PD, int fileLength, char debugModeEnabled) {
                         // current byte to current_byte + *
 
                         if (IS_INT(PD)) {
-                            for (j = 0; j < *(PD) - 48; j++) {
+                            for (j = 0; j < *(PD) - '0'; j++) {
                                 printf("%c", *(memory + memoryOffset + j));
                             }
                         } else {
@@ -691,7 +698,7 @@ short interpeter(char *PD, int fileLength, char debugModeEnabled) {
                         PD++;
 
                         // multiplies the current memory value by the value given in the script
-                        *(memory + memoryOffset) = *(memory + memoryOffset) * (*PD - 48);
+                        *(memory + memoryOffset) = *(memory + memoryOffset) * (*PD - '0');
 
                         break;
                     
@@ -786,8 +793,7 @@ short interpeter(char *PD, int fileLength, char debugModeEnabled) {
                                 PD += toIncrease;
                             }
                         } else {
-                            printf("%s\n", FUNCTION_ALREADY_EXISTS);
-                            return FUNCTION_ALREADY_EXISTS_CODE;
+                            ERROR(line, FUNCTION_ALREADY_EXISTS_CODE);
                         }
 
                         break;
@@ -814,7 +820,7 @@ short interpeter(char *PD, int fileLength, char debugModeEnabled) {
             // ask the user to press enter to continue executing the program
             printf("\nPRESS ENTER TO CONTINUE");
             getchar();
-            printf("----------------\n");
+            printf("----------------\n-> ");
         }
 
 
@@ -825,9 +831,7 @@ short interpeter(char *PD, int fileLength, char debugModeEnabled) {
         // user at line ( (i + 4) / 4) that the command is larger than allowed 
         if (*PD != 10) {
             printf("PD -> |%c|\n", *PD);
-            printf("%s\nLine: %i\n", LARGE_COMMAND, (line + INSTRUCTION_LENGTH) / INSTRUCTION_LENGTH);
-            
-            return LARGE_COMMAND_CODE;
+            ERROR(line, LARGE_COMMAND_CODE);
         }
 
         // update the line variable by the instruction length and increase PD ( Program Data )
@@ -871,23 +875,23 @@ char compareStrings(char *str1, char *str2) {
 }
 
 
-LONG power(LONG arg1, LONG arg2) {
+long power(long base, long exponent) {
     // if the user inputs 0 ( arg1 ^ 0 ) then return 1, if the user inputs 1 ( arg1 ^ 1 )
     // then return arg1
 
-    if (arg2 == 0) {
+    if (exponent == 0) {
         return 1;
-    } else if (arg2 == 1) {
-        return arg1;
+    } else if (exponent == 1) {
+        return base;
     }
 
 
     // declare a long variable ( 8 bytes for linux - 4 for windows and i won't change it )
     // to return for later after we finish multiplying the arg1 to itself by arg2 - 1 times
-    LONG toReturn = arg1;
+    long toReturn = base;
 
-    for (short i = 0; i < arg2 - 1; i++) {
-        toReturn = toReturn * toReturn;
+    for (short i = 0; i < exponent - 1; i++) {
+        toReturn = toReturn * base;
     }
 
     return toReturn;
