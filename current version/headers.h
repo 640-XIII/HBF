@@ -7,20 +7,13 @@
 #define MAXIMUM_FUNCS 64
 #define MEMORY 256
 
-#define NO_INPUT_FILE "No input file detected, please insert the file name"
-#define ERROR_OPENING_FILE "An error occured while opening the file"
-#define RUNTIME_ERROR "Error during runtime, unexpected character"
-#define UKNOWN_LABEL_RUNTIME "Error during runtime, unknown label"
-#define LABEL_ALREADY_EXISTS "Error during runtime, label already exists"
-#define FUNCTION_ALREADY_EXISTS "Error during runtime, function already exist"
-#define FUNCTION_DOESNT_EXIST "Error during runtime, function doesn't exist"
-#define LARGE_COMMAND "Error during runtime, command larger than expected"
+
 #define ERROR_CLOSING_FILE "Error closing input file"
 #define WRONG_ARGUMENT "Invalid argument, please enter a valid argument"
 
-#define ERROR(message, line, exitCode) printf("%s\nLine -> %i\n", message, line); return exitCode;
-#define RUN_ERR(line) ERROR(RUNTIME_ERROR, ((line + INSTRUCTION_LENGTH) / INSTRUCTION_LENGTH), 3)
-#define IS_INT(x) (*x - 48) < 10 && (*x - 48) >= 0
+#define ERROR(line, exitCode) return printf("%s\nLine -> %i\n", errorMessages[exitCode - 1], line), exitCode;
+#define RUN_ERR(line) ERROR(((line + INSTRUCTION_LENGTH) / INSTRUCTION_LENGTH), 3)
+#define IS_INT(x) (*x - '0') < 10 && (*x - '0') >= 0
 
 #define DEBUG_FILE_OUTPUT_NAME "debugOut.txt"
 #define DEBUG_MODE_CODE "-d"
@@ -38,9 +31,22 @@ enum ERROR_CODES {
     FUNCTION_DOESNT_EXIST_CODE = 7,
     LARGE_COMMAND_CODE = 8,
     ERROR_CLOSING_FILE_CODE = 9,
-    WRONG_ARGUMENT_CODE = 10
+    WRONG_ARGUMENT_CODE = 10,
+    NO_DEBUG_FILE_CODE = 11
 };
 
-typedef long int LONG;
+const char* errorMessages[] = {
+    "No input file detected, please insert the file name",
+    "An error occured while opening the file",
+    "Error during runtime, unexpected character",
+    "Error during runtime, unknown label",
+    "Error during runtime, label already exists",
+    "Error during runtime, function already exist",
+    "Error during runtime, function doesn't exist",
+    "Error during runtime, command larger than expected",
+    "Error closing input file",
+    "Invalid argument, please enter a valid argument"
+    "Missing argument, debug output file name"
+};
 
 #endif
