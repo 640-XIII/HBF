@@ -185,6 +185,7 @@ $ ./out input.hbf -d
 </h6>
 <small><i>*You can modify these values from the HBF.c and from headers.h file from version 1.3</i></small>
 <br>
+<br>
 
 **<u>WARNINGS</u>**
 <br>
