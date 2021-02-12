@@ -24,7 +24,7 @@ If you want to help in the development of the language you should see [Contribut
 
 <h4> How memory works in High BrainFuck </h4>
 
-Memory in <b>HBF</b> works in cells, you have 256 cells of memory ( bytes ) which you can change in the #definein the <b><u>start</u></b> of the HBF.c file.
+Memory in <b>HBF</b> works in cells, you have 256 cells of memory ( bytes ) which you can change in the #define the <b><u>headers.h</u></b> file.
 
 <h4>Change memory cells with the following commands</h4>
 
@@ -150,8 +150,14 @@ $ ./out input.hbf
 
 ```
 $ gcc HBF.c -o out
-$ ./out input.hbf -d
+$ ./out input.hbf -d [NAME ( optional )]
 ```
+
+<b>Debug</b> mode will output useful data ( current command, current memory cell and all of used memory cells and their values) to a 
+txt file, if you don't input a <b>name</b> it will use the name given in the <b>headers.h</b> file.
+
+<hr>
+
 - [HBF scripts](https://github.com/640-XIII/HBF/tree/main/scripts)
 
 <small>*Note: You can input all file types</small>
