@@ -5,7 +5,11 @@
 #define INSTRUCTION_LENGTH 4 // LENGTH + 1 ( for \n character)
 #define MAXIMUM_LABELS 64
 #define MAXIMUM_FUNCS 64
+#define BUFFER_SIZE 100
 #define MEMORY 256
+
+
+#define DEBUG_OUT_FILE "debugOut.txt"
 
 
 #define ERROR_CLOSING_FILE "Error closing input file"
@@ -17,6 +21,11 @@
 
 #define DEBUG_FILE_OUTPUT_NAME "debugOut.txt"
 #define DEBUG_MODE_CODE "-d"
+
+#define false 0
+#define true 1
+
+typedef unsigned char bool;
 
 enum ERROR_CODES {
     NO_INPUT_FILE_CODE = 1,

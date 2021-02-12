@@ -1,4 +1,3 @@
-#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -7,9 +6,10 @@
 
 #pragma region declareFuncs
 
-short interpeter(char *PD, int fileLength, bool debugModeEnabled);
+short interpeter(char *PD,  FILE *debugOut, int fileLength, bool debugModeEnabled);
 void loadProgramInMemory(FILE *fp, char *PD, int fileLength);
 bool compareStrings(char *str1, char *str2);
+int sizeOfString(char *stringToMeasure);
 long power(long base, long exponent);
 int getFileLength(FILE *fp);
 
@@ -26,7 +26,7 @@ int main(int argc, char** argv) {
     bool debugState = false;
 
     // see if the user wants a debug mode and act accordingly
-    if (argc == 3) {
+    if (argc >= 3) {
         debugState = compareStrings(argv[2], DEBUG_MODE_CODE);
 
         if (debugState == false) {
@@ -41,12 +41,23 @@ int main(int argc, char** argv) {
     int fileLength = getFileLength(fp);
     char *programData = malloc(sizeof(*programData) * fileLength);
     
+    char *debugFilename = (argc == 3) ? DEBUG_OUT_FILE : argv[3];
+
 
     if (fp != NULL) {
         loadProgramInMemory(fp, programData, fileLength);
         
         if (fclose(fp) == 0) {
-            return interpeter(programData, fileLength, debugState);
+            if (debugState == false) {
+                return interpeter(programData, NULL, fileLength, debugState);
+            } else {
+                FILE *debugOutFP = fopen(debugFilename, "w");
+                int toReturn = interpeter(programData, debugOutFP, fileLength, debugState);
+                
+                fclose(debugOutFP);
+                
+                return toReturn;
+            }
         } else {
             printf("%s\n", ERROR_CLOSING_FILE);
             return ERROR_CLOSING_FILE_CODE;
@@ -60,7 +71,7 @@ int main(int argc, char** argv) {
 
 #pragma region funcs
 
-short interpeter(char *PD, int fileLength, bool debugModeEnabled) {
+short interpeter(char *PD,  FILE *debugOut, int fileLength, bool debugModeEnabled) {
     // all the variables needed to make labels work ( name, label position , number of labels )
     unsigned int *labelsPositions = malloc(sizeof(*labelsPositions) * MAXIMUM_LABELS);
     unsigned char *labelNames = malloc(sizeof(*labelNames) * MAXIMUM_LABELS);
@@ -808,20 +819,23 @@ short interpeter(char *PD, int fileLength, bool debugModeEnabled) {
         // if debug mode was enabled then save the maximum memory offset recorded for
         // later use
         
-        if (debugModeEnabled) {
+        if (debugModeEnabled == true) {
             maxMemoryLocation = (maxMemoryLocation < memoryOffset) ? memoryOffset : maxMemoryLocation;
 
+            char stringToSave[BUFFER_SIZE];
+            sprintf(stringToSave, "----------------\nCurrent memory cell: %i\nCurrent Command: %c%c%c\n\0", memoryOffset, *(PD - 2), *(PD - 1), *PD);
+
             // print the total memory used, current command and memory contents
-            printf("\n----------------\nCurrent memory cell: %i\nCurrent Command: %c%c%c\n", memoryOffset, *(PD - 2), *(PD - 1), *PD);
+            fwrite(stringToSave, 1, sizeOfString(stringToSave), debugOut);
+
 
             for (int i = 0; i <= maxMemoryLocation; i++) {
-                printf("%i%-4c", *(memory + i), '|');
-            } 
-            
-            // ask the user to press enter to continue executing the program
-            printf("\nPRESS ENTER TO CONTINUE");
-            getchar();
-            printf("----------------\n-> ");
+                sprintf(stringToSave, "%i%4c\0", (int)*(memory + i), '|');
+
+                fwrite(stringToSave, 1, sizeOfString(stringToSave), debugOut);
+            }
+
+            fwrite("\n\n", 1, 2, debugOut);
         }
 
 
@@ -873,6 +887,17 @@ bool compareStrings(char *str1, char *str2) {
     }
 
     return true;
+}
+
+
+int sizeOfString(char *stringToMeasure) {
+    int toReturn = 0;
+
+    while (*(stringToMeasure + toReturn) != '\0') {
+        toReturn++;
+    }
+
+    return toReturn;
 }
 
 
