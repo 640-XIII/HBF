@@ -13,7 +13,7 @@ bool compareStrings(char *str1, char *str2);
 int sizeOfString(char *stringToMeasure);
 long power(long base, long exponent);
 int getFileLength(FILE *fp);
-EM_TYPE getShort();
+EM_TYPE getNum();
 
 #pragma endregion declareFuncs
 
@@ -1036,10 +1036,18 @@ int getFileLength(FILE *fp) {
 }
 
 
-short getShort() {
-    short toReturn;
+EM_TYPE getNum() {
+    EM_TYPE toReturn;
 
-    scanf("%hi", &toReturn);
+    if (sizeof(EM_TYPE) == 1) {
+        scanf("%c", &toReturn);
+    } else if (sizeof(EM_TYPE) == 2) {
+        scanf("%hi", &toReturn);
+    } else if (sizeof(EM_TYPE) == 4) {
+        scanf("%i", &toReturn);
+    } else {
+        scanf("%li", &toReturn);
+    }
 
     return toReturn;
 }
