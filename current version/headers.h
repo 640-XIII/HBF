@@ -8,6 +8,8 @@
 #define BUFFER_SIZE 100
 #define MEMORY 256
 
+#define EXTENDED_MEMORY 128
+#define EM_TYPE short
 
 #define DEBUG_OUT_FILE "debugOut.txt"
 

@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <SDL/SDL.h>
 
 #include "headers.h"
 
@@ -12,11 +13,13 @@ bool compareStrings(char *str1, char *str2);
 int sizeOfString(char *stringToMeasure);
 long power(long base, long exponent);
 int getFileLength(FILE *fp);
+EM_TYPE getShort();
 
 #pragma endregion declareFuncs
 
 
 int main(int argc, char** argv) {
+    printf("\a");
     if (argc == 1) {
         printf("%s\n", errorMessages[0]); 
         return NO_INPUT_FILE_CODE;
@@ -90,22 +93,17 @@ short interpeter(char *PD,  FILE *debugOut, int fileLength, bool debugModeEnable
 
 
     // all the data related variables and help variables
+    unsigned EM_TYPE *extendedMemory = malloc(sizeof(EM_TYPE) * EXTENDED_MEMORY);
     unsigned char *memory = malloc(sizeof(*memory) * MEMORY);
-    unsigned int maxMemoryLocation = 0;
+    unsigned int extendedMemoryOffset = 0;
     unsigned int memoryOffset = 0;
     unsigned int tempVar = 0;
     unsigned int line = 0;
     unsigned int j = 0;
     unsigned int k = 0;
+    
+    unsigned int maxMemoryLocation = 0;
     bool found = false;
-
-
-    // check if debug mode is enabled and create a output file it this is the case
-    /*
-    if (debugModeEnabled) {
-        FILE *outputFile = fopen(DEBUG_FILE_OUTPUT_NAME, "w");
-        fclose(outputFile);
-    }*/
 
 
     // fill the memory with all zeroes
@@ -113,9 +111,13 @@ short interpeter(char *PD,  FILE *debugOut, int fileLength, bool debugModeEnable
         *(memory + i) = 0;
     }
 
+    for (int i = 0; i < EXTENDED_MEMORY; i++) {
+        *(extendedMemory + i) = 0;
+    }
+
 
     // the following loop while end once it sees the E character at PD[0]
-    while (*PD != 'E') {
+    while (true) {
         /* 
         | a switch to effectively test every situation, every time we get into a case
         | we increase the PD ( Program Data ) by one so we have the next character to
@@ -728,6 +730,103 @@ short interpeter(char *PD,  FILE *debugOut, int fileLength, bool debugModeEnable
                 }
 
                 break;
+
+            case ('E'):
+                PD++;
+                
+                switch (*PD) {
+                    case ('M'):
+                        PD++;
+
+                        // check if the character is a number to multiply it, if it is not the test for the other valid
+                        // possibilities 
+
+                        if (IS_INT(PD)) {
+                            *(extendedMemory + extendedMemoryOffset) = *(extendedMemory + extendedMemoryOffset) * (*PD - '0');
+                        } else {
+                            switch (*PD) {
+                                case ('N'):
+                                    extendedMemoryOffset++; // increase the offset by one
+                                    break;
+
+                                case ('P'):
+                                    extendedMemoryOffset--; // decrease the offset by one
+                                    break;
+
+                                case ('I'):
+                                    *(extendedMemory + extendedMemoryOffset) += 1; // increase the EM value by one
+                                    break;
+
+                                case ('D'):
+                                    *(extendedMemory + extendedMemoryOffset) -= 1; // decrease the EM value by one
+                                    break;
+
+                                case ('S'):
+                                    printf("%hi", *(extendedMemory + extendedMemoryOffset)); // display the current EM valye
+                                    break;
+
+                                case ('G'):
+                                    *(extendedMemory + extendedMemoryOffset) = getShort(); // get a number from the user
+
+                                    break;
+
+                                default: RUN_ERR(line)
+                            }
+                        }                        
+
+                        break;
+                    
+                    case ('S'):
+                        PD++;
+
+                        // subtract the current EM value with the number, else from the next EM value or previous
+
+                        if (IS_INT(PD)) {
+                            *(extendedMemory + extendedMemoryOffset) -= (*PD - '0');
+                        } else if (*PD == 'N') {
+                            *(extendedMemory + extendedMemoryOffset) -= *(extendedMemory + extendedMemoryOffset + 1);
+                        } else if (*PD == 'P') {
+                            *(extendedMemory + extendedMemoryOffset) -= *(extendedMemory + extendedMemoryOffset - 1);
+                        } else {
+                            RUN_ERR(line);
+                        }
+
+                        break;
+
+                    case ('A'):
+                        PD++;
+
+                        // add the current EM value with the number, else from the next EM value or previous
+
+                        if (IS_INT(PD)) {
+                            *(extendedMemory + extendedMemoryOffset) += (*PD - '0');
+                        } else if (*PD == 'N') {
+                            *(extendedMemory + extendedMemoryOffset) += *(extendedMemory + extendedMemoryOffset + 1);
+                        } else if (*PD == 'P') {
+                            *(extendedMemory + extendedMemoryOffset) += *(extendedMemory + extendedMemoryOffset - 1);
+                        } else {
+                            RUN_ERR(line);
+                        }
+
+                        break;
+
+                    case ('N'):
+                        PD++;
+
+                        // just the end command
+
+                        if (*PD == 'D') {
+                            exit(0);
+                        } else {
+                            RUN_ERR(line);
+                        }
+
+                        break;
+
+                    default: RUN_ERR(line);
+                }
+
+                break;
             
             case ('F'):
                 PD++;
@@ -932,6 +1031,15 @@ int getFileLength(FILE *fp) {
     fseek(fp, 0, SEEK_END);
     toReturn = ftell(fp);
     rewind(fp);
+
+    return toReturn;
+}
+
+
+short getShort() {
+    short toReturn;
+
+    scanf("%hi", &toReturn);
 
     return toReturn;
 }
