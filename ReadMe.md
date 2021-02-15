@@ -157,14 +157,14 @@ There are two types of conditional statements and are the following:
 <b>EMD</b> - Decrease the value of the current EM cell by one<br>
 <b>EMS</b> - Show the contents of the current EM cell<br>
 <b>EMG</b> - Get input from the user and store that input to the current EM cell<br>
-<b>EP*</b> - Raise the current EM cell to the power of *<br>
-<b>EM*</b> - Multiply the current EM cell by *<br>
+<b>EP\*</b> - Raise the current EM cell to the power of \*<br>
+<b>EM\*</b> - Multiply the current EM cell by \*<br>
 <b>EMN</b> - Multiply the current EM cell by the previous EM cell's value<br>
 <b>EMP</b> - Multiply the current EM cell by the next EM cell's valu<br>
-<b>ES*</b> - Subtract the current EM cell by The value of *<br>
+<b>ES\*</b> - Subtract the current EM cell by The value of \*<br>
 <b>ESN</b> - Subtract the current EM cell by The value of the next EM cell<br>
 <b>ESP</b> - Subtract the current EM cell by The value of the previous EM cell<br>
-<b>EA*</b> - Add the value of * to the current EM cell<br>
+<b>EA\*</b> - Add the value of \* to the current EM cell<br>
 <b>EAN</b> - Add the value of the next EM cell to the current EM cell<br>
 <b>EAP</b> - Add the value of the previous EM cell to the current EM cell<br>
 <b>END</b> - It indicates the end of the program, it is <b>always</b> needed<br>
