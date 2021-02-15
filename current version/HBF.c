@@ -809,6 +809,17 @@ short interpeter(char *PD,  FILE *debugOut, int fileLength, bool debugModeEnable
                         }
 
                         break;
+                    
+                    case ('P'):
+                        PD++;
+
+                        if (IS_INT(PD)) {
+                            *(extendedMemory + extendedMemoryOffset) = power(*(extendedMemory + extendedMemoryOffset), (*PD - '0'));
+                        } else {
+                            RUN_ERR(line)
+                        }
+
+                        break;
 
                     case ('N'):
                         PD++;
