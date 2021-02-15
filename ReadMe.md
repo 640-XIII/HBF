@@ -151,22 +151,22 @@ There are two types of conditional statements and are the following:
 <b>SHR</b> - Shifts all the bits in the current memory cell by one to the right ( value = value >> 1 )<br>
 <b>SHL</b> - Shifts all the bits in the current memory cell by one to the left ( value = value << 1 )<br>
 <b>RR*</b> - Saves the current value to the remainder of the division with * ( value = value % *)<br>
-<li>EMN - Move the EM pointer to the next element</li>
-<li>EMP - Move the EM pointer to the previous element</li>
-<li>EMI - Increase the value of the current EM cell by one</li>
-<li>EMD - Decrease the value of the current EM cell by one</li>
-<li>EMS - Show the contents of the current EM cell</li>
-<li>EMG - Get input from the user and store that input to the current EM cell</li>
-<li>EP* - Raise the current EM cell to the power of *</li>
-<li>EM* - Multiply the current EM cell by *</li>
-<li>EMN - Multiply the current EM cell by the previous EM cell's value</li>
-<li>EMP - Multiply the current EM cell by the next EM cell's valu</li>
-<li>ES* - Subtract the current EM cell by The value of *</li>
-<li>ESN - Subtract the current EM cell by The value of the next EM cell</li>
-<li>ESP - Subtract the current EM cell by The value of the previous EM cell</li>
-<li>EA* - Add the value of * to the current EM cell</li>
-<li>EAN - Add the value of the next EM cell to the current EM cell</li>
-<li>EAP - Add the value of the previous EM cell to the current EM cell</li>
+<b>EMN</b> - Move the EM pointer to the next element<br>
+<b>EMP</b> - Move the EM pointer to the previous element<br>
+<b>EMI</b> - Increase the value of the current EM cell by one<br>
+<b>EMD</b> - Decrease the value of the current EM cell by one<br>
+<b>EMS</b> - Show the contents of the current EM cell<br>
+<b>EMG</b> - Get input from the user and store that input to the current EM cell<br>
+<b>EP*</b> - Raise the current EM cell to the power of *<br>
+<b>EM*</b> - Multiply the current EM cell by *<br>
+<b>EMN</b> - Multiply the current EM cell by the previous EM cell's value<br>
+<b>EMP</b> - Multiply the current EM cell by the next EM cell's valu<br>
+<b>ES*</b> - Subtract the current EM cell by The value of *<br>
+<b>ESN</b> - Subtract the current EM cell by The value of the next EM cell<br>
+<b>ESP</b> - Subtract the current EM cell by The value of the previous EM cell<br>
+<b>EA*</b> - Add the value of * to the current EM cell<br>
+<b>EAN</b> - Add the value of the next EM cell to the current EM cell<br>
+<b>EAP</b> - Add the value of the previous EM cell to the current EM cell<br>
 <b>END</b> - It indicates the end of the program, it is <b>always</b> needed<br>
 
 
