@@ -1,60 +1,43 @@
-#ifndef HEADER_DEFINED
+#ifndef IFNDEFDEFINED
+#define IFNDEFDEFINED
 
-#define HEADER_DEFINED
-
-#define INSTRUCTION_LENGTH 4 // LENGTH + 1 ( for \n character)
-#define MAXIMUM_LABELS 64
-#define MAXIMUM_FUNCS 64
-#define BUFFER_SIZE 100
-#define MEMORY 256
-
-#define EXTENDED_MEMORY 128
-#define EM_TYPE short
-
-#define DEBUG_OUT_FILE "debugOut.txt"
-
-
-#define ERROR_CLOSING_FILE "Error closing input file"
-#define WRONG_ARGUMENT "Invalid argument, please enter a valid argument"
-
-#define ERROR(line, exitCode) return printf("%s\nLine -> %i\n", errorMessages[exitCode - 1], line), exitCode;
-#define RUN_ERR(line) ERROR(((line + INSTRUCTION_LENGTH) / INSTRUCTION_LENGTH), 3)
-#define IS_INT(x) (*x - '0') < 10 && (*x - '0') >= 0
-
-#define DEBUG_FILE_OUTPUT_NAME "debugOut.txt"
-#define DEBUG_MODE_CODE "-d"
-
-#define false 0
-#define true 1
-
-typedef unsigned char bool;
-
-enum ERROR_CODES {
-    NO_INPUT_FILE_CODE = 1,
-    ERROR_OPENING_FILE_CODE = 2,
-    RUNTIME_ERROR_CODE = 3,
-    UKNOWN_LABEL_RUNTIME_CODE = 4,
-    LABEL_ALREADY_EXISTS_CODE = 5,
-    FUNCTION_ALREADY_EXISTS_CODE = 6,
-    FUNCTION_DOESNT_EXIST_CODE = 7,
-    LARGE_COMMAND_CODE = 8,
-    ERROR_CLOSING_FILE_CODE = 9,
-    WRONG_ARGUMENT_CODE = 10,
-    NO_DEBUG_FILE_CODE = 11
+struct ProgramData
+{
+    char opcode[3];
 };
 
-const char* errorMessages[] = {
-    "No input file detected, please insert the file name",
-    "An error occured while opening the file",
-    "Error during runtime, unexpected character",
-    "Error during runtime, unknown label",
-    "Error during runtime, label already exists",
-    "Error during runtime, function already exist",
-    "Error during runtime, function doesn't exist",
-    "Error during runtime, command larger than expected",
-    "Error closing input file",
-    "Invalid argument, please enter a valid argument"
-    "Missing argument, debug output file name"
-};
+
+typedef enum {
+    FALSE, TRUE
+} boolean;
+
+
+int getTotalLines(FILE *fp);
+void readFileData(FILE *fp, struct ProgramData toWrite[], int totalLines);
+int interpreter(struct ProgramData toAnalyze[], int totalLines);
+int power(int base, int exponent);
+
+
+#define isNumber(character) (character - '0') >= 0 && (character - '0') <= 9 
+
+#define printError(errorMessage, returnCode) return printf("Error: %s\n", errorMessage), returnCode;
+#define printErrorLine(errorMessage, line, returnCode) return printf("Error: %s\nLine: %i\n", errorMessage, (line + 1)), returnCode;
+#define wrongOpcode printErrorLine(INCORRECT_OPCODE_ERROR_MESSAGE, line, INCORRECT_OPCODE_ERROR_CODE)
+
+#define OPCODE_SIZE 3
+
+#define NO_INPUT_FILE_ERROR_CODE 1
+#define INCORRECT_OPCODE_ERROR_CODE 2
+#define WRONG_ARGUMENT_ERROR_CODE 3
+#define WRONG_VALUE_ERROR_CODE 4
+#define ARITHMETIC_ERROR_CODE 5
+#define LABEL_ALREADY_EXISTS_ERROR_CODE 6
+
+#define NO_INPUT_FILE_ERROR_MESSAGE "No input file detected"
+#define INCORRECT_OPCODE_ERROR_MESSAGE "Incorrect opcode"
+#define WRONG_ARGUMENT_ERROR_MESSAGE "Wrong argument given"
+#define WRONG_VALUE_ERROR_MESSAGE "Wrong value given"
+#define ARITHMETIC_ERROR_MESSAGE "Arithmetic error"
+#define LABEL_ALREADY_EXISTS_ERROR_MESSAGE "Label already exists"
 
 #endif
